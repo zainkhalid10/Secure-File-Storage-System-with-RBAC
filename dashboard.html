@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="dashboard-card">
+      
+      <!-- Dashboard Header + Navigation -->
+      <header class="dashboard-header">
+        <h2>Your Dashboard</h2>
+        <nav class="dashboard-nav">
+          <a href="{{ url_for('view_logs') }}" class="btn">View Logs</a>
+          <a href="{{ url_for('logout') }}"    class="btn logout-btn">Logout</a>
+        </nav>
+      </header>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-container">
+            {% for category, msg in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ msg }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Upload Form (only for admin/editor) -->
+      {% if current_user.role in ['admin','editor'] %}
+        <form method="post"
+              action="{{ url_for('upload_file') }}"
+              enctype="multipart/form-data"
+              class="upload-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="file" name="file" class="file-input" required>
+          <button type="submit" class="btn upload-btn">Upload New File</button>
+        </form>
+      {% else %}
+        <p class="text-center no-files">
+          You do not have permission to upload files.
+        </p>
+      {% endif %}
+
+      <!-- Files Table -->
+      {% if encrypted_files %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Filename</th>
+              <th>Uploaded At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for file in encrypted_files %}
+              <tr>
+                <td>{{ file.filename }}</td>
+                <td>{{ file.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>
+                  <a href="{{ url_for('download_encrypted', file_id=file.id) }}"
+                     class="btn btn-sm">
+                    Encrypted
+                  </a>
+                  <a href="{{ url_for('download_decrypted', file_id=file.id) }}"
+                     class="btn btn-sm">
+                    Decrypted
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="no-files">You have no files yet.</p>
+      {% endif %}
+
+    </div>
+  </div>
+</body>
+</html>

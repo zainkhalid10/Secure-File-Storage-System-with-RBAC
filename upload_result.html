@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Encryption Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>File Successfully Encrypted!</h2>
+        <a href="{{ url_for('download_file', filename='encrypted_file.rtf', mode='encrypted') }}" class="btn">Download Encrypted File</a>
+        <a href="{{ url_for('download_file', filename='decrypted_file.rtf', mode='decrypted') }}" class="btn">Download Decrypted File</a>
+    </div>
+</body>
+</html>

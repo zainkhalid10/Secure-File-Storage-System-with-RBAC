@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Action Logs</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container logs-container">
+    <h2>Action Logs</h2>
+
+    {% if logs %}
+      <div class="table-responsive">
+        <table class="logs-table">
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>File Path</th>
+              <th>HMAC Signature</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for log in logs %}
+              <tr>
+                <td>{{ log.action }}</td>
+                <td
+                class="path-cell"
+                data-fullpath="{{ log.file_path }}"
+              >
+                {{ log.file_path }}
+              </td>
+                <td>{{ log.hmac_signature }}</td>
+                <td>{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="no-logs">No logs to display.</p>
+    {% endif %}
+
+    <div class="back-btn">
+      <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

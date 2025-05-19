@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded File</title>
+</head>
+<body>
+    <h1>File Uploaded Successfully!</h1>
+    <p>Your file has been encrypted and is available for download.</p>
+    <p><a href="{{ url_for('download_file', filename=filename) }}">Download Encrypted File</a></p>
+</body>
+</html>

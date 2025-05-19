@@ -1,0 +1,14 @@
+<!-- templates/view_file.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <title>View: {{ filename }}</title>
+</head>
+<body>
+    <h1>Decrypted Content: {{ filename }}</h1>
+    <pre style="white-space: pre-wrap; border: 1px solid #ccc; padding: 1em;">
+{{ content }}
+    </pre>
+    <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
